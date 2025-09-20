@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\V1\CustomerCollection;
+use App\Http\Resources\V1\CustomerResource;
 use App\Models\Customer;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
@@ -14,7 +16,10 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        return Customer::all();
+        // Identifica a CustomerResource automaticamente e aplica na collection.
+        // paginate() retorna os dados paginados.
+        // all() retorna todos os dados.
+        return new CustomerCollection(Customer::paginate());
     }
 
     /**
@@ -38,7 +43,8 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        //
+        // return $customer;
+        return new CustomerResource($customer);
     }
 
     /**
